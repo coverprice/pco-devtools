@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 # Functions to add color messages to shell scripts.
 
 # Global vars
@@ -8,10 +7,6 @@ declare -g -A COLORS=(
 if [[ -t 1 ]] ; then
     # Is `tput` available?
     if type tput > /dev/null ; then
-        # `tput` buys us terminal compatibility. Try `xterm -ti vt52` and then:
-        # $ export TERM=vt52
-        # $ source ./colors.sh
-        # $ msg_err test
         COLORS=(
             [reset]=$(tput sgr0)
             [underline]=$(tput sgr 0 1)
@@ -43,33 +38,31 @@ if [[ -t 1 ]] ; then
             [gray]=$(tput setaf 7)
         )
     else
-        # You should really install `ncurses` so you can get `tput`
-        # Pad missing colors with empty strings to placate `set -o nounset`
         COLORS=(
             [reset]="$(printf "\033[0m")"
             [underline]=""
             [light]=""
 
-            [black]=""
-            [light_black]=""
+            [black]="$(printf "\033[0;30m")"
+            [light_black]="$(printf "\033[1;30m")"
 
             [red]="$(printf "\033[0;31m")"
             [light_red]="$(printf "\033[1;31m")"
 
             [green]="$(printf "\033[0;32m")"
-            [light_green]=""
+            [light_green]="$(printf "\033[1;32m")"
 
-            [yellow]="$(printf "\033[1;33m")"
-            [light_yellow]=""
+            [yellow]="$(printf "\033[0;33m")"
+            [light_yellow]="$(printf "\033[1;33m")"
 
-            [blue]=""
-            [light_blue]=""
+            [blue]="$(printf "\033[0;34m")"
+            [light_blue]="$(printf "\033[1;34m")"
 
-            [magenta]=""
-            [light_magenta]=""
+            [magenta]="$(printf "\033[0;35m")"
+            [light_magenta]="$(printf "\033[1;35m")"
 
-            [cyan]=""
-            [light_cyan]=""
+            [cyan]="$(printf "\033[0;36m")"
+            [light_cyan]="$(printf "\033[1;36m")"
 
             [white]="$(printf "\033[1;37m")"
             [light_white]="$(printf "\033[1;37m")"
