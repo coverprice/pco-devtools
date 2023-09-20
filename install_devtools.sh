@@ -18,7 +18,9 @@ function ensure_dnf_packages_installed {
     jq \
     gh \
     git \
-    ncurses
+    ncurses \
+    openssl \
+    vagrant
   set +o xtrace
 
   DNF_INSTALL_COMPLETED=true
