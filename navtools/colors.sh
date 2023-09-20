@@ -64,7 +64,7 @@ if [[ -t 1 ]] ; then
             [cyan]="$(printf "\033[0;36m")"
             [light_cyan]="$(printf "\033[1;36m")"
 
-            [white]="$(printf "\033[1;37m")"
+            [white]="$(printf "\033[0;37m")"
             [light_white]="$(printf "\033[1;37m")"
             [gray]="$(printf "\033[0;37m")"
         )

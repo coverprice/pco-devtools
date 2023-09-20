@@ -36,7 +36,7 @@ function _active_project_prompt() {
   fi
 
   # shellcheck disable=SC2034
-  _ACTIVE_PROJECT_PROMPT="$(printf "%s[%s]%s " "${COLORS[light_cyan]}" "${project_name}" "${COLORS[reset]}")"
+  _ACTIVE_PROJECT_PROMPT="$(printf "%s[%s]%s " "${COLORS[reset]}${COLORS[cyan]}" "${project_name}" "${COLORS[reset]}")"
 }
 
 
@@ -47,8 +47,8 @@ function pco_prompt_update() {
   if [[ -n "${_REPO_TOP:-}" ]] ; then
     repo_name="$(basename "$(dirname "${_REPO_TOP}")")"
     branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-    git_branch_prompt="$(printf "%s[%s%s %s%s] " "${COLORS[white]}" "${COLORS[reset]}" "${repo_name}" "${COLORS[white]}" "${branch}")"
+    git_branch_prompt="$(printf "%s[%s%s %s%s] " "${COLORS[light_white]}" "${COLORS[reset]}" "${repo_name}" "${COLORS[light_white]}" "${branch}")"
     _active_project_prompt "${_REPO_TOP}"
   fi
-  PS1="${git_branch_prompt}${_ACTIVE_PROJECT_PROMPT}${COLORS[green]}[${COLORS[gray]}\\u ${COLORS[green]}\\w${COLORS[light_cyan]}]${COLORS[reset]}\\$ "
+  PS1="${git_branch_prompt}${_ACTIVE_PROJECT_PROMPT}${COLORS[green]}[${COLORS[gray]}\\u ${COLORS[green]}\\w]${COLORS[reset]}\\$ "
 }
