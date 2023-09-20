@@ -5,6 +5,9 @@ This repo contains:
   repos, and for managing the state of Python venvs used within those repos.
 * Installation scripts to quickly get a new user set up with the tooling.
 
+For full instructions on setting up a Linux environment, please consult
+[PCO dev environment setup](https://docs.google.com/document/d/1Yp3Ixeh4FzvON2Sru6r1D9gBSvPGtn6WOhlYMpRMyhA/view).
+
 
 ## Installation
 
@@ -40,29 +43,33 @@ Changing directories into a repo will automatically re-activate the Active Proje
 
 ### Repo management
 
-#### `repoclone [--upstream-only] REPO_NAME [DIR_NAME]`
+#### `clone_repo.sh [--upstream-only] REPO_NAME [TARGET_DIR_NAME]`
 
 Clones a PCO-owned repo and configures it:
 
-1. Clones `github.com/<your_github_username>/REPO_NAME` into `PCO_REPO_DIR/DIR_NAME`. (`DIR_NAME` defaults to
-   `REPO_NAME`). If `--upstream-only` is specified, it clones from `github.com/openshift-eng/REPO_NAME` and
+1. Clones `github.com/<your_github_username>/REPO_NAME` into `PCO_REPO_DIR/TARGETDIR_NAME`. (`TARGETDIR_NAME` defaults
+   to `REPO_NAME`). If `--upstream-only` is specified, it clones from `github.com/openshift-eng/REPO_NAME` and
    does not perform further configuration.
 2. Adds the git remote `upstream`: `github.com/openshift-eng/REPO_NAME`
 3. Installs the repo's pre-commit hook, if it has one.
 
+This script is located at the top of this repo.
+
+It uses the `gh` underneath the hood, so you must have previously authorized `gh` with `gh auth login`.
+
 
 #### `repo REPO_NAME`
 
-Change directory to `~/PCO_REPO_DIR/REPO_NAME` and auto-activate the venv (if there is one).
+Change directory to `$PCO_REPO_DIR/REPO_NAME` and auto-activate the venv (if there is one).
 
 
 #### `allbranches`
-List all repos under `~/PCO_REPO_DIR`, and what git branch they're checked out to.
+List all repos under `$PCO_REPO_DIR`, and what git branch they're checked out to.
 
 
 ### Venv management & intra-repo navigation
 
-These command All commands are expected to be called from within a repo.
+These commands are expected to be called from within a repo.
 
 #### `cdtop`
 
@@ -76,21 +83,19 @@ source code of installed pip dependencies.
 
 #### `cdd [PROJECT]`
 
-Change directory to the `PROJECT`. The current venv is _not_ modified.
+Change directory to `PROJECT`. The current venv is _not_ modified.
 
 Use `[TAB]` to autocomplete `PROJECT`. e.g. `cdd aws-to[TAB]` --> `cdd aws-toolkit`.
 
 For repos with only a single Project (in the top directory), the Project name is implicit.
 
 
-#### `venv [--refresh] on`
+#### `venv on`
 
 Activates a venv for the nearest Project.
 
 1. Find the nearest Project, found by searching upwards from the current directory, and mark it as the Active Project.
 2. Activate the Project's venv (creating it if necessary).
-
-The '--refresh' option forces the venv to be recreated.
 
 
 #### `venv off`
