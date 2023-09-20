@@ -50,5 +50,5 @@ function pco_prompt_update() {
     git_branch_prompt="$(printf "%s[%s%s %s%s] " "${COLORS[white]}" "${COLORS[reset]}" "${repo_name}" "${COLORS[white]}" "${branch}")"
     _active_project_prompt "${_REPO_TOP}"
   fi
-  PS1="${git_branch_prompt}${_ACTIVE_PROJECT_PROMPT}${COLORS[green]}[${COLORS[gray]}\\u ${COLORS[green]}${PWD/#${HOME}/\~}${COLORS[light_cyan]}]${COLORS[reset]}\\$ "
+  PS1="${git_branch_prompt}${_ACTIVE_PROJECT_PROMPT}${COLORS[green]}[${COLORS[gray]}\\u ${COLORS[green]}\\w${COLORS[light_cyan]}]${COLORS[reset]}\\$ "
 }
