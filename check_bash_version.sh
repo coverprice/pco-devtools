@@ -7,3 +7,9 @@ if [[ "${BASH_VERSINFO[0]}" -lt 5 ]]; then
   echo "then re-run this script."
   exit 1
 fi
+
+if [[ ! $SHELL =~ bash$ ]]; then
+  echo "ERROR! Your default shell is not Bash! These tools rely on your default shell being Bash to function."
+  exit 1
+fi
+
