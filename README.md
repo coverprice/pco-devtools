@@ -11,11 +11,46 @@ For full instructions on setting up a Linux environment, please consult
 
 ## Installation
 
+### Fedora Linux
+
 With a fresh user that belongs to the `wheel` group (can `sudo` without a password), run the following:
 
 ```
 curl --silent --show-error --location https://raw.githubusercontent.com/openshift-eng/pco-devtools/main/bootstrap.sh | bash
 ```
+
+### MacOS
+
+**Important!**: You must install Homebrew and update your bash before you begin the install process:
+
+1. Install Homebrew (instructions from the [Homebrew website](https://brew.sh/)):
+
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+2. Install a modern Bash:
+
+    brew install bash
+
+3. Allow this bash to be a default shell (enter your password when prompted):
+
+  (This 1-liner appends the path to the new bash to `/private/etc/shells`.)
+
+    new_bash="$(brew --prefix)/bin/bash" ; ! grep -E "${new_bash}" /private/etc/shells >/dev/null && (echo "${new_bash}" | sudo tee -a /private/etc/shells)
+
+4. Set your default shell to the new bash (enter your password when prompted):
+
+    chsh -s "$(brew --prefix)/bin/bash"
+
+5. Use the new Bash:
+
+   Either restart your terminal, or run `exec "$(brew --prefix)/bin/bash"`
+
+6. Begin the install process:
+
+```
+curl --silent --show-error --location https://raw.githubusercontent.com/openshift-eng/pco-devtools/main/bootstrap.sh | bash
+```
+
 
 ## About Python "Projects"
 

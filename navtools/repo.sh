@@ -1,4 +1,5 @@
-# cd to another repo under PCO_REPO_DIR
+#!/usr/bin/env bash
+#cd to another repo under PCO_REPO_DIR
 #
 # Usage:
 #   repo REPONAME
@@ -48,6 +49,7 @@ function repo() {
 function _repo_autocomplete() {
   # This autocompletes 'repo <some-repo>'
   # See load.sh for how the function is installed.
+  # shellcheck disable=SC2034
   local - command_name="${1:-}" word_being_completed="${2:-}" word_preceding="${3:-}" repo_options
   set -o errexit -o nounset
   unset COMPREPLY

@@ -1,7 +1,7 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 set -o errexit -o nounset -o pipefail
 INSTALL_NAVTOOLS_HERE="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+source "${INSTALL_NAVTOOLS_HERE}/check_bash_version.sh"
 
 
 function install_pco_navtools {

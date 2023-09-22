@@ -1,9 +1,9 @@
-#!/bin/bash
-#
+#!/usr/bin/env bash
 # Install editor-related tools and configs
 
 set -o errexit -o nounset -o pipefail
 INSTALL_EDITOR_TOOLS_HERE="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+source "${INSTALL_EDITOR_TOOLS_HERE}/check_bash_version.sh"
 
 
 function ensure_tmux_installed() {

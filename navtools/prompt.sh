@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # ==========================
 # Generate the Bash prompt
 # ==========================
@@ -41,7 +42,7 @@ function _active_project_prompt() {
 
 
 function pco_prompt_update() {
-  local branch git_top repo_name git_branch_prompt
+  local branch repo_name git_branch_prompt
   _ACTIVE_PROJECT_PROMPT=
   _analyze_current_repo --silent
   if [[ -n "${_REPO_TOP:-}" ]] ; then

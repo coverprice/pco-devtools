@@ -1,8 +1,7 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 set -o errexit -o pipefail
-# shellcheck disable=SC2034
 INSTALL_PYTHON_TOOLS_HERE="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+source "${INSTALL_PYTHON_TOOLS_HERE}/check_bash_version.sh"
 
 
 function ensure_pyenv_installed {

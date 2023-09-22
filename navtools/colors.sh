@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Functions to add color messages to shell scripts.
 
 # Global vars
@@ -72,6 +73,7 @@ if [[ -t 1 ]] ; then
 else
     # If we're not running in a terminal, prevent scripts that reference this array from erroring out with `set -o
     # nounset` enabled.
+    # shellcheck disable=SC2034
     COLORS=(
         [reset]=""
         [underline]=""
