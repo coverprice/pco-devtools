@@ -10,12 +10,14 @@ function fedora_linux_install() {
   # ncurses gives us tput, which is used for coloring the prompt
 
   declare -a packages=(
+    ack
     jq
     gh
     git
     ncurses
     openssl
     ShellCheck
+    the_silver_searcher
     tmux
     vagrant
     vim-enhanced
@@ -45,13 +47,16 @@ function macos_install() {
   # Some packages are not available via Brew so are installed by the function that configures them:
   # - vim-ale
   local packages_to_install=()
-  for package in jq gh shellcheck tmux vagrant ; do
+  for package in ack jq gh shellcheck tmux vagrant ; do
     if ! command -v "${package}" >/dev/null ; then
       packages_to_install+=("${package}")
     fi
   done
   if ! command -v tput >/dev/null ; then
     packages_to_install+=("ncurses")
+  fi
+  if ! command -v ag >/dev/null ; then
+    packages_to_install+=("the_silver_searcher")
   fi
   if [[ "${#packages_to_install[@]}" -gt 0 ]]; then
     set -o xtrace
