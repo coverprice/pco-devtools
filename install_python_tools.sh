@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -o errexit -o pipefail
+# shellcheck disable=SC2034
 INSTALL_PYTHON_TOOLS_HERE="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 
@@ -32,13 +33,21 @@ function ensure_pyenv_installed {
   else
     echo "Installing Pyenv config loader"
     # Adapted from https://github.com/pyenv/pyenv#set-up-your-shell-environment-for-pyenv
+    # Which recommends installing it in both .bash_profile and .bashrc (via .bashrc.d)
     cat >> ~/.bash_profile <<"EOF"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+EOF
+    [[ ! -d ~/.bashrc.d ]] && mkdir -p ~/.bashrc.d
+    cat >> ~/.bashrc.d/pyenv.sh <<"EOF"
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 EOF
     echo "Re-sourcing bash profile"
     set +o nounset
+    # shellcheck disable=SC1090
     source ~/.bash_profile
   fi
   echo "Completed Installing Pyenv config loader"
