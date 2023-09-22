@@ -37,3 +37,7 @@ autocmd BufEnter * :call SetTermTitle(expand("%:t"))
 "aliases directly. To see the actual codes inside tmux, run cat and hit the keys.
 nnoremap [14~ <Esc>:N<CR>
 nnoremap [15~ <Esc>:n<CR>
+
+set statusline+=%#warningmsg#
+set statusline+=%*
+set statusline+=%l

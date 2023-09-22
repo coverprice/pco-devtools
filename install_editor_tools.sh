@@ -18,8 +18,7 @@ function ensure_dnf_packages_installed {
     ShellCheck \
     tmux \
     vim-enhanced \
-    vim-syntastic \
-    vim-syntastic-python
+    vim-ale
   set +o xtrace
 
   DNF_INSTALL_COMPLETED=true
@@ -53,19 +52,16 @@ function ensure_vimrc_installed {
 }
 
 
-function ensure_vim_syntastic_installed {
-  ensure_dnf_packages_installed
-
-  local config_dir config_file
-  config_file=~/.vim/after/plugin/syntastic.vim
+function ensure_vim_ale_installed {
+  local config_file
+  config_file=~/.vim/plugin/ale.vim
   if [[ -f $config_file ]]; then
-    echo "Skipping: adding Vim syntastic config. Vim syntastic config already present."
+    echo "Skipping: adding Vim ale config. Vim ale config already present."
 
   else
-    echo "Installing Vim syntastic config."
-    config_dir="$(dirname "${config_file}")"
-    mkdir -p "${config_dir}"
-    cp "${INSTALL_TOOLS_HERE}/configs/vim/syntastic.vim" "${config_dir}"
+    echo "Installing Vim ale config."
+    mkdir -p "$(dirname "${config_file}")"
+    cp "${INSTALL_TOOLS_HERE}/configs/vim/ale.vim" "${config_file}"
   fi
 }
 
@@ -105,7 +101,7 @@ function main {
   ensure_dnf_packages_installed
   ensure_tmux_installed
   ensure_vimrc_installed
-  ensure_vim_syntastic_installed
+  ensure_vim_ale_installed
   ensure_vim_black_installed
 }
 
