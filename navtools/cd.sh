@@ -80,7 +80,7 @@ function cdat() {
 # [infra-toolbox ONLY] cd to the support-toolkit directory (and activate the venv)
 function cdsup() {
   _analyze_current_repo
-  if [[ -z "${_REPO_TOP:-}" ]] && $_REPO_IS_MONOREPO ; then
+  if [[ -n "${_REPO_TOP:-}" ]] && $_REPO_IS_MONOREPO ; then
     cd "${_REPO_TOP}/apps/support-toolkit"
     _venv_on
   else
