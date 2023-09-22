@@ -3,5 +3,5 @@
 
 set -o errexit -o nounset -o pipefail -o xtrace
 mkdir -p ~/dev/repos
-git clone https://github.com/openshift-eng/pco-devtools.git ~/dev/repos/
+git clone https://github.com/openshift-eng/pco-devtools.git ~/dev/repos/pco-devtools
 ~/dev/repos/pco-devtools/install_all.sh
