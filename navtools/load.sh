@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 PCO_NAVTOOLS_HERE="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 function _load_navtools() {

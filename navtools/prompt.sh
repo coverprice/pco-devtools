@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # ==========================
 # Generate the Bash prompt
 # ==========================
@@ -41,7 +42,7 @@ function _active_project_prompt() {
 
 
 function pco_prompt_update() {
-  local branch git_top repo_name git_branch_prompt
+  local branch repo_name git_branch_prompt
   _ACTIVE_PROJECT_PROMPT=
   _analyze_current_repo --silent
   if [[ -n "${_REPO_TOP:-}" ]] ; then
@@ -50,5 +51,5 @@ function pco_prompt_update() {
     git_branch_prompt="$(printf "%s[%s%s %s%s] " "${COLORS[light_white]}" "${COLORS[reset]}" "${repo_name}" "${COLORS[light_white]}" "${branch}")"
     _active_project_prompt "${_REPO_TOP}"
   fi
-  PS1="${git_branch_prompt}${_ACTIVE_PROJECT_PROMPT}${COLORS[green]}[${COLORS[gray]}\\u ${COLORS[green]}\\w]${COLORS[reset]}\\$ "
+  PS1="${git_branch_prompt}${_ACTIVE_PROJECT_PROMPT}${COLORS[reset]}${COLORS[green]}[${COLORS[gray]}\\u ${COLORS[green]}\\w]${COLORS[reset]}\\$ "
 }

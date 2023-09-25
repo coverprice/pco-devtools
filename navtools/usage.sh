@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 function _navtools_usage() {
   cat <<"EOF"
 Usage:

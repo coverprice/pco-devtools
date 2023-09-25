@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Purpose: Examines the current repo (assuming the current directory is in one), and extracts various attributes
 #          into envvars.
 # INPUT:

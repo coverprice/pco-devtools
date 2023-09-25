@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # INPUT: None
 # OUTPUT:
 #   @return _PROJECT_OPTIONS - envvar array - an array of the project names available in the repo (projects are under /apps and /libs,

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # =======================================================
 # Functions for manipulating venvs within a specific repo
 # =======================================================
@@ -119,7 +120,7 @@ function _venv_go() {
   fi
 
   _activate_venv "${project_path_to_activate}"
-  cd "${_REPO_TOP}/${project_path_to_activate}"
+  cd "${_REPO_TOP}/${project_path_to_activate}" || return
   _analyze_current_repo
 }
 

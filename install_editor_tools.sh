@@ -1,78 +1,58 @@
-#!/bin/bash
-#
+#!/usr/bin/env bash
 # Install editor-related tools and configs
 
 set -o errexit -o nounset -o pipefail
-INSTALL_TOOLS_HERE="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+INSTALL_EDITOR_TOOLS_HERE="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+source "${INSTALL_EDITOR_TOOLS_HERE}/check_bash_version.sh"
 
 
-function ensure_dnf_packages_installed {
-  local -
-  if "${DNF_INSTALL_COMPLETED:-false}" ; then
-    return
-  fi
-
-  echo "Ensuring critical editor RPMs are installed."
-  set -o xtrace
-  sudo dnf install --assumeyes \
-    ShellCheck \
-    tmux \
-    vim-enhanced \
-    vim-syntastic \
-    vim-syntastic-python
-  set +o xtrace
-
-  DNF_INSTALL_COMPLETED=true
-}
-
-
-function ensure_tmux_installed {
-  ensure_dnf_packages_installed
-
+function ensure_tmux_installed() {
   if [[ -f ~/.tmux.conf ]]; then
     echo "Skipping: adding tmux config. Tmux config already present."
 
   else
     echo "Missing tmux configuration. Installing basic configuration into ~/.tmux.conf"
-    cp "${INSTALL_TOOLS_HERE}/configs/tmux.sample.conf" ~/.tmux.conf
+    cp "${INSTALL_EDITOR_TOOLS_HERE}/configs/tmux.sample.conf" ~/.tmux.conf
   fi
 }
 
 
-function ensure_vimrc_installed {
-  ensure_dnf_packages_installed
-
+function ensure_vimrc_configured() {
   if [[ -f ~/.vimrc ]]; then
     echo "Skipping: adding vim config. Vim config already present."
 
   else
     echo "Missing vim configuration. Installing basic configuration into ~/.vimrc"
-    cp "${INSTALL_TOOLS_HERE}/configs/vim/vimrc.sample.vim" ~/.vimrc
+    cp "${INSTALL_EDITOR_TOOLS_HERE}/configs/vim/vimrc.sample.vim" ~/.vimrc
     return
   fi
 }
 
 
-function ensure_vim_syntastic_installed {
-  ensure_dnf_packages_installed
+function ensure_vim_ale_configured() {
+  local macos_ale_install_dir=~/.vim/pack/git-plugins/start/ale
+  if [[ "$(uname)" == "Linux" ]] && ! rpm -q vim-ale >/dev/null 2>&1 ; then
+    echo "Skipping: vim-ale RPM is not present. Use install_packages.sh script to install"
+    return 0
+  elif [[ "$(uname)" == "Darwin" ]] && [[ ! -d "${macos_ale_install_dir}/.git" ]] ; then
+    mkdir -p "${macos_ale_install_dir}"
+    git clone --depth 1 https://github.com/dense-analysis/ale.git "${macos_ale_install_dir}"
+  fi
 
-  local config_dir config_file
-  config_file=~/.vim/after/plugin/syntastic.vim
+  local config_file
+  config_file=~/.vim/plugin/ale.vim
   if [[ -f $config_file ]]; then
-    echo "Skipping: adding Vim syntastic config. Vim syntastic config already present."
+    echo "Skipping: adding Vim ale config. Vim ale config already present."
 
   else
-    echo "Installing Vim syntastic config."
-    config_dir="$(dirname "${config_file}")"
-    mkdir -p "${config_dir}"
-    cp "${INSTALL_TOOLS_HERE}/configs/vim/syntastic.vim" "${config_dir}"
+    echo "Installing Vim ale config."
+    mkdir -p "$(dirname "${config_file}")"
+    cp "${INSTALL_EDITOR_TOOLS_HERE}/configs/vim/ale.vim" "${config_file}"
   fi
 }
 
 
-function ensure_vim_black_installed {
-  ensure_dnf_packages_installed
-
+function ensure_vim_black_installed() {
   if [[ ! -f ~/.vim/pack/python/start/black/plugin/black.vim ]]; then
     echo "Installing Python Black plugin"
     if [[ -n ${VIRTUAL_ENV:-} ]] || [[ "$(which python)" =~ venv ]]; then
@@ -93,7 +73,7 @@ function ensure_vim_black_installed {
       echo "Installing Python Black config"
       config_dir="$(dirname "${config_file}")"
       mkdir -p "${config_dir}"
-      cp "${INSTALL_TOOLS_HERE}/configs/vim/black.vim" "${config_dir}"
+      cp "${INSTALL_EDITOR_TOOLS_HERE}/configs/vim/black.vim" "${config_dir}"
     fi
 
     vim -c :Black -c :q		# Run vim to install Black and immediately quit
@@ -101,13 +81,13 @@ function ensure_vim_black_installed {
 }
 
 
-function main {
-  ensure_dnf_packages_installed
+function install_editor_configs() {
+  source "${INSTALL_EDITOR_TOOLS_HERE}/install_packages.sh"
   ensure_tmux_installed
-  ensure_vimrc_installed
-  ensure_vim_syntastic_installed
+  ensure_vimrc_configured
+  ensure_vim_ale_configured
   ensure_vim_black_installed
 }
 
 
-main
+install_editor_configs
