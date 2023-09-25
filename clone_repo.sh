@@ -151,7 +151,7 @@ function clone_repo {
 
   echo "Cloning ${forked_repo}"
   set -o xtrace
-  gh repo clone "${upstream_repo}" "${target_dir}"
+  gh repo clone "${forked_repo}" "${target_dir}"
   set +o xtrace
 }
 
