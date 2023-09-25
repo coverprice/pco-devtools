@@ -11,6 +11,7 @@ function fedora_linux_install() {
 
   declare -a packages=(
     ack
+    findutils
     jq
     gh
     git
@@ -52,12 +53,20 @@ function macos_install() {
       packages_to_install+=("${package}")
     fi
   done
+
+  # MacOS uses an ancient version of find / xargs.
+  if find . -printf '%s' 2>&1 | grep "unknown primary or operator" >/dev/null ; then
+    packages_to_install+=("findutils")
+  fi
+
   if ! command -v tput >/dev/null ; then
     packages_to_install+=("ncurses")
   fi
+
   if ! command -v ag >/dev/null ; then
     packages_to_install+=("the_silver_searcher")
   fi
+
   if [[ "${#packages_to_install[@]}" -gt 0 ]]; then
     set -o xtrace
     brew install "${packages_to_install[@]}"
