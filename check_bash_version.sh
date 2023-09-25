@@ -10,6 +10,7 @@ fi
 
 if [[ ! $SHELL =~ bash$ ]]; then
   echo "ERROR! Your default shell is not Bash! These tools rely on your default shell being Bash to function."
+  echo "Consult the README for instructions on permanently updating your shell to Bash."
   exit 1
 fi
 

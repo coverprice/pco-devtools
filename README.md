@@ -21,7 +21,7 @@ curl --silent --show-error --location https://raw.githubusercontent.com/openshif
 
 ### MacOS
 
-**Important!**: You must install Homebrew and update your bash before you begin the install process:
+**Important!**: You must install Homebrew and update Bash before you begin the install process:
 
 1. Install Homebrew (instructions from the [Homebrew website](https://brew.sh/)):
 
