@@ -1,8 +1,11 @@
+#!/usr/bin/env bash
 export PCO_BASE_DIR=~/dev
 export PCO_REPO_DIR="${PCO_BASE_DIR}/repos"
 export PCO_VENV_DIR="${PCO_BASE_DIR}/venvs"
 
-export REQUESTS_CA_BUNDLE="${REQUESTS_CA_BUNDLE:-/etc/pki/tls/certs/ca-bundle.crt}"
+if [[ "$(uname)" == "Linux" ]]; then
+  export REQUESTS_CA_BUNDLE="${REQUESTS_CA_BUNDLE:-/etc/pki/tls/certs/ca-bundle.crt}"
+fi
 
 
 # This lets gpg-agent work correctly within tmux
