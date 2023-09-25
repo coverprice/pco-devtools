@@ -17,6 +17,11 @@ function ensure_git_credential_helper_installed() {
 
 
 function ensure_root_ca_installed() {
+  if [[ "$(uname)" == "Darwin" ]]; then
+    echo "Skipping: MacOS install of Root CA bundle install is handled elsewhere. Consult README for more info."
+    return
+  fi
+
   # See instructions from
   # https://source.redhat.com/groups/public/identity-access-management/rhcs_red_hat_certificate_system_wiki/faqs_new_corporate_root_certificate_authority
   if [[ -f "/etc/pki/ca-trust/source/anchors/Current-IT-Root-CAs.pem" ]] ; then
