@@ -80,13 +80,13 @@ function parse_args {
     usage
     exit 1
   fi
-  if [[ -z "${PCO_REPO_HOME:-}" ]] ; then
+  if [[ -z "${PCO_REPO_DIR:-}" ]] ; then
     echo "Error: PCO_REPO_HOME not configured. Please consult the README.md: ${HERE}/README.md"
     usage
     exit 1
   fi
 
-  TARGET_DIR="${PCO_REPO_HOME}/${TARGET_DIR_NAME}"
+  TARGET_DIR="${PCO_REPO_DIR}/${TARGET_DIR_NAME}"
   if [[ -d $TARGET_DIR ]] ; then 
     echo "Error: Target directory already exists: ${TARGET_DIR}"
     exit 1
