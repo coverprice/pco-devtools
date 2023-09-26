@@ -6,8 +6,9 @@ source "${INSTALL_PACKAGES_HERE}/check_bash_version.sh"
 
 function fedora_linux_install() {
   echo "Ensuring critical RPMs are installed."
-  # gh is the github CLI tool
-  # ncurses gives us tput, which is used for coloring the prompt
+  # gh: the Github CLI tool
+  # ncurses: provides 'tput', which is used for coloring the prompt
+  # p11-kit-trust: provides 'trust', used for inspecting the contents of the CA certificate bundle
 
   declare -a packages=(
     ack
@@ -17,6 +18,7 @@ function fedora_linux_install() {
     git
     ncurses
     openssl
+    p11-kit-trust
     ShellCheck
     the_silver_searcher
     tmux
