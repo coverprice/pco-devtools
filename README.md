@@ -22,7 +22,7 @@ curl --silent --show-error --location https://raw.githubusercontent.com/openshif
 ### MacOS
 
 1. **Only for Macs not managed by IT**. (If you have the Managed Software Center installed on your Mac, you can skip
-   this steps). Follow [this KB article](https://redhat.service-now.com/help?id=kb_article_view&sysparm_article=KB0004030)
+   this steps). Follow [this KB article](https://url.corp.redhat.com/c7a40cf)
    to ensure you have the right certificates installed.
 
 2. Install Homebrew (instructions from the [Homebrew website](https://brew.sh/)):
