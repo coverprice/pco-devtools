@@ -10,6 +10,11 @@ function fedora_linux_install() {
   # ncurses: provides 'tput', which is used for coloring the prompt
   # p11-kit-trust: provides 'trust', used for inspecting the contents of the CA certificate bundle
 
+  if ! rpm -q dnf-plugins-core >/dev/null 2>&1 || ! sudo dnf repolist | grep -q ^hashicorp ; then
+    sudo dnf install --assumeyes dnf-plugins-core
+    sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+  fi
+
   declare -a packages=(
     ack
     findutils
@@ -23,6 +28,7 @@ function fedora_linux_install() {
     the_silver_searcher
     tmux
     vagrant
+    vault
     vim-enhanced
     vim-ale
   )
@@ -67,6 +73,11 @@ function macos_install() {
 
   if ! command -v ag >/dev/null ; then
     packages_to_install+=("the_silver_searcher")
+  fi
+
+  if ! command -v vault >/dev/null ; then
+    brew tap hashicorp/tap
+    brew install hashicorp/tap/vault
   fi
 
   if [[ "${#packages_to_install[@]}" -gt 0 ]]; then
