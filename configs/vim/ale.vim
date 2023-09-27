@@ -13,6 +13,10 @@ let g:ale_lint_on_insert_leave = 0
 " they can be navigated.
 let g:ale_open_list = 1
 
+" Makes ALEError highlighting legible when highlighting strings in dark mode
+" (default is to have red bg with magenta text, which has no contrast)
+highlight SpellBad term=reverse ctermbg=12 gui=undercurl guisp=Red
+
 " Ctrl-k / Ctrl-j to move to prev/next error.
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
