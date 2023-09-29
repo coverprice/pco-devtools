@@ -46,7 +46,7 @@ function pco_prompt_update() {
   _ACTIVE_PROJECT_PROMPT=
   _analyze_current_repo --silent
   if [[ -n "${_REPO_TOP:-}" ]] ; then
-    repo_name="$(basename "$(dirname "${_REPO_TOP}")")"
+    repo_name="$(basename "${_REPO_TOP}")"
     branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
     git_branch_prompt="$(printf "\\\\[%s\\\\][\\\\[%s\\\\]%s \\\\[%s\\\\]%s] " "${COLORS[light_white]}" "${COLORS[reset]}" "${repo_name}" "${COLORS[light_white]}" "${branch}")"
     _active_project_prompt "${_REPO_TOP}"
