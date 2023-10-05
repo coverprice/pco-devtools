@@ -12,7 +12,7 @@ function cdpylibs() {
   fi
 
   local - dir
-  dir="$(python -c "import sys; print(list(filter(lambda x:x.endswith('/site-packages'),sys.path))[0])")"
+  dir="$(python -c "import site; print(site.getsitepackages()[0])")"
   if [[ ! -d $dir ]]; then
     echo "ERROR: ${dir} does not exist"
     return
