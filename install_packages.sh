@@ -16,21 +16,39 @@ function fedora_linux_install() {
   fi
 
   declare -a packages=(
-    ack
-    findutils
-    jq
-    gh
+    ack                       # Dev tool: Search text files for strings quickly (similar to grep)
+    findutils                 # Includes `find`, which is commonly-used
+    gcc                       # Needed to compile specific Python versions
+    gdbm-devel                # Needed to compile specific Python versions
+    gh                        # Github CLI client, needed for some infra-toolbox scripts
     git
+    jq
+    libffi-devel              # Needed to compile specific Python versions
     ncurses
+    ncurses-devel             # Needed to compile specific Python versions
+    npm                       # Used for Atlas development
     openssl
-    p11-kit-trust
-    ShellCheck
-    the_silver_searcher
-    tmux
-    vagrant
-    vault
+    openssl-devel             # Needed to compile specific Python versions
+    p11-kit-trust             # Needed to compile specific Python versions
+    postgresql-server         # Used for Atlas development
+    readline-devel            # Needed to compile specific Python versions
+    redis                     # Used for Atlas development
+    sed
+    ShellCheck                # Shell script linter
+    sqlite-devel              # Needed to compile specific Python versions
+    the_silver_searcher       # Dev tool: Search text files for strings quickly (similar to grep)
+    tmux                      # Shell window management
+    uwsgi                     # Web server: Used for Atlas development
+    uwsgi-plugin-python3
+    uwsgi-router-http
+    vagrant                   # Used to stand up local VMs for development
+    vault                     # Hashicorp Vault client
+    vim-ale                   # VIM editor syntax highlighting system
     vim-enhanced
-    vim-ale
+    xmlsec1-openssl           # Needed to compile specific Python versions
+    xz-devel                  # Needed to compile specific Python versions
+    yarnpkg                   # Used for Atlas development
+    zlib-devel                # Needed to compile specific Python versions
   )
   declare -a packages_to_install=()
   for package in "${packages[@]}" ; do
@@ -41,6 +59,30 @@ function fedora_linux_install() {
   if [[ "${#packages_to_install[@]}" -gt 0 ]] ; then
     set -o xtrace
     sudo dnf install --assumeyes "${packages_to_install[@]}"
+    set +o xtrace
+  fi
+
+
+  # Initialize Postgres
+  if ! sudo systemctl is-enabled --quiet postgresql.service ; then
+    set -o xtrace
+    # Configure Postgres to accept md5 authentication
+    if sudo test ! -f "/var/lib/pgsql/data/pg_hba.conf"; then
+      sudo /usr/bin/postgresql-setup --initdb
+
+      # Update the "host    all             all             127.0.0.1/32            ident" line to use md5 instead:
+      #            "host    all             all             127.0.0.1/32            md5"
+      sudo sed -i -E 's#^(host\s+all\s+all\s+127.0.0.1/32\s+)ident$#\1md5#g' /var/lib/pgsql/data/pg_hba.conf
+    fi
+
+    sudo systemctl enable --now postgresql.service
+    set +o xtrace
+  fi
+
+  # Enable the Redis service
+  if ! sudo systemctl is-enabled --quiet redis.service ; then
+    set -o xtrace
+    sudo systemctl enable --now redis.service
     set +o xtrace
   fi
 }

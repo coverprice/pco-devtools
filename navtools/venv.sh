@@ -165,6 +165,7 @@ function _activate_venv() {
 
   echo -n "${project_dir}" > "${_REPO_METADATA_PATH}/active_project.txt"
   source "${venv_path}/bin/activate"
+  export PYENV_VERSION=system     # Stops pyenv shims from executing the global Python
   if $was_venv_created ; then
     pip3 install --upgrade pip
   fi
@@ -175,6 +176,7 @@ function _activate_venv() {
 function _deactivate_venv() {
   [[ $(type -t deactivate) == "function" ]] && deactivate
   unset VIRTUAL_ENV
+  unset PYENV_VERSION
 }
 
 
@@ -209,6 +211,7 @@ function _venv_auto_activate() {
     local venv_path="${_REPO_METADATA_PATH}/${_REPO_ACTIVE_PROJECT_DIR}/venv"
     if [[ -f "${venv_path}/bin/activate" ]] ; then
       source "${venv_path}/bin/activate"
+      export PYENV_VERSION=system     # Stops pyenv shims from executing the global Python
     else
       echo "WARNING: Repo's active project does not have a valid venv: ${venv_path}"
     fi
