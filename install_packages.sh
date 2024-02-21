@@ -17,6 +17,8 @@ function fedora_linux_install() {
 
   declare -a packages=(
     ack                       # Dev tool: Search text files for strings quickly (similar to grep)
+    coreutils
+    curl
     findutils                 # Includes `find`, which is commonly-used
     gcc                       # Needed to compile specific Python versions
     gdbm-devel                # Needed to compile specific Python versions
@@ -30,6 +32,7 @@ function fedora_linux_install() {
     openssl
     openssl-devel             # Needed to compile specific Python versions
     p11-kit-trust             # Needed to compile specific Python versions
+    podman
     postgresql-server         # Used for Atlas development
     readline-devel            # Needed to compile specific Python versions
     redis                     # Used for Atlas development
