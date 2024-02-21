@@ -5,15 +5,17 @@ This repo contains:
   repos, and for managing the state of Python venvs used within those repos.
 * Installation scripts to quickly get a new user set up with the tooling.
 
-For full instructions on setting up a Linux environment, please consult
-[PCO dev environment setup](https://docs.google.com/document/d/1Yp3Ixeh4FzvON2Sru6r1D9gBSvPGtn6WOhlYMpRMyhA/view).
 
 
 ## Installation
 
 ### Fedora Linux
 
-With a fresh user that belongs to the `wheel` group (can `sudo` without a password), run the following:
+For full instructions on setting up a Linux environment, consult
+[PCO dev environment setup](https://docs.google.com/document/d/1Yp3Ixeh4FzvON2Sru6r1D9gBSvPGtn6WOhlYMpRMyhA/view).
+
+With a fresh user that belongs to the `wheel` group (can `sudo` without a password), run the following to install
+everything.
 
 ```bash
 curl --silent --show-error --location https://raw.githubusercontent.com/openshift-eng/pco-devtools/main/bootstrap.sh | bash
