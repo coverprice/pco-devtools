@@ -24,11 +24,13 @@ function fedora_linux_install() {
     gdbm-devel                # Needed to compile specific Python versions
     gh                        # Github CLI client, needed for some infra-toolbox scripts
     git
+    git-delta                 # Alternate diff pager for git
     jq
     libffi-devel              # Needed to compile specific Python versions
     ncurses
     ncurses-devel             # Needed to compile specific Python versions
     npm                       # Used for Atlas development
+    openldap-clients          # Install ldapsearch and other useful LDAP-related tools
     openssl
     openssl-devel             # Needed to compile specific Python versions
     p11-kit-trust             # Needed to compile specific Python versions
