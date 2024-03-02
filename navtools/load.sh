@@ -2,15 +2,20 @@
 PCO_NAVTOOLS_HERE="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 function _load_navtools() {
-  local - navtools_config
+  local -
   set -o nounset -o pipefail
 
-  navtools_config="${PCO_NAVTOOLS_HERE}/../configs/pco_devtools.conf.sh"
-  if [[ ! -f $navtools_config ]]; then
-    echo "Navtools config file not found in ${navtools_config}, copying from defaults."
-    cp "${PCO_NAVTOOLS_HERE}/../configs/pco_devtools.conf.defaults.sh" "${navtools_config}"
+  local config_dir
+  local config_env=~/.config/pco_devtools/pco_devtools.conf.sh
+  local config_env_defaults="${PCO_NAVTOOLS_HERE}/configs/pco_devtools.conf.defaults.sh"
+
+  if [[ ! -f $config_env ]]; then
+    echo "${config_env} does not exist, creating from defaults."
+    config_dir="$(dirname "$(readlink -f "${config_env}")")"
+    [[ ! -d $config_dir ]] && mkdir -p "${config_dir}"
+    cp "${config_env_defaults}" "${config_env}"
   fi
-  source "${navtools_config}"
+  source "${config_env}"
 
   if [[ -z "${PCO_REPO_DIR:-}" ]] || [[ -z "${PCO_VENV_DIR:-}" ]] ; then
     echo "WARNING: Misconfiguration PCO_REPO_DIR and PCO_VENV_DIR are not set."

@@ -5,12 +5,15 @@ source "${INSTALL_NAVTOOLS_HERE}/check_bash_version.sh"
 
 
 function install_pco_navtools {
-  local config_env="${INSTALL_NAVTOOLS_HERE}/configs/pco_devtools.conf.sh"
+  local config_dir
+  local config_env=~/.config/pco_devtools/pco_devtools.conf.sh
   local config_env_defaults="${INSTALL_NAVTOOLS_HERE}/configs/pco_devtools.conf.defaults.sh"
   local install_target=~/.bashrc.d/load_pco_navtools.sh
 
   if [[ ! -f $config_env ]]; then
-    echo "pco_devtools.conf.sh does not exist, creating from defaults: ${config_env_defaults}"
+    echo "${config_env} does not exist, creating from defaults."
+    config_dir="$(dirname "$(readlink -f "${config_env}")")"
+    [[ ! -d $config_dir ]] && mkdir -p "${config_dir}"
     cp "${config_env_defaults}" "${config_env}"
   fi
 
