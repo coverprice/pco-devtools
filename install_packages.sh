@@ -17,6 +17,7 @@ function fedora_linux_install() {
 
   declare -a packages=(
     ack                       # Dev tool: Search text files for strings quickly (similar to grep)
+    awscli2                   # AWS CLI tooling, v2.
     coreutils
     curl
     findutils                 # Includes `find`, which is commonly-used
@@ -102,8 +103,17 @@ function macos_install() {
   # - vim
   # Some packages are not available via Brew so are installed by the function that configures them:
   # - vim-ale
+  declare -a brew_packages=(
+    ack                       # Dev tool: Search text files for strings quickly (similar to grep)
+    awscli                    # AWS CLI tooling, v2.
+    gh                        # Github CLI client, needed for some infra-toolbox scripts
+    jq
+    shellcheck                # Shell script linter
+    tmux                      # Shell window management
+    vagrant                   # Used to stand up local VMs for development
+  )
   local packages_to_install=()
-  for package in ack jq gh shellcheck tmux vagrant ; do
+  for package in "${brew_packages[@]}" ; do
     if ! command -v "${package}" >/dev/null ; then
       packages_to_install+=("${package}")
     fi
@@ -129,7 +139,7 @@ function macos_install() {
 
   if [[ "${#packages_to_install[@]}" -gt 0 ]]; then
     set -o xtrace
-    brew install "${packages_to_install[@]}"
+    brew install --overwrite "${packages_to_install[@]}"
     set +o xtrace
   fi
 }
