@@ -8,7 +8,9 @@ source "${INSTALL_NAVTOOLS_HERE}/navtools/setup_functions.sh"
 function install_pco_navtools {
   _ensure_navtools_config_exists
 
-  local install_target=~/.bashrc.d/load_pco_navtools.sh
+  # NB: the zzzz_ prefix here is to ensure that this runs *after* pyenv.sh. Otherwise,
+  # pyenv will point the Python executable at the global pyenv shim, rather than the active venv's Python.
+  local install_target=~/.bashrc.d/zzzz_load_pco_navtools.sh
   [[ ! -d ~/.bashrc.d ]] && mkdir -p ~/.bashrc.d
 
   if [[ ! -f $install_target ]]; then
