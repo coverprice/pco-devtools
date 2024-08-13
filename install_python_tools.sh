@@ -3,6 +3,8 @@ set -o errexit -o pipefail
 INSTALL_PYTHON_TOOLS_HERE="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 source "${INSTALL_PYTHON_TOOLS_HERE}/check_bash_version.sh"
 
+INSTALL_PYTHON_VERSION=3.9
+
 
 function ensure_pyenv_installed {
   local -
@@ -63,18 +65,21 @@ function ensure_python_installed {
   fi
 
   if pyenv versions --bare | grep -E '^3\.9\.' >/dev/null 2>&1 ; then
-    echo "Python 3.9 already installed."
+    echo "Python ${INSTALL_PYTHON_VERSION} already installed."
   else
-    echo "Installing Python 3.9 (this may take some time)"
-    pyenv install 3.9
+    echo "Installing Python ${INSTALL_PYTHON_VERSION} (this may take some time)"
+    pyenv install "${INSTALL_PYTHON_VERSION}"
   fi 
 
-  pyenv global 3.9
+  pyenv global "${INSTALL_PYTHON_VERSION}"
 
-  local py_version regex='^Python 3\.9\.'
-  py_version="$(python --version)"
-  if [[ ! $py_version =~ $regex ]] ; then
-    echo "Error: Python 3.9 is installed but running 'python --version' is showing: '${py_version}'"
+  local current_py_version desired_python_version="Python ${INSTALL_PYTHON_VERSION}."
+  current_py_version="$(python --version)"
+  # The if's left-hand-side can be read as "If possible, strip 'Python x.y.' from the beginning o $current_py_version"
+  # so we can test whether $current_py_version begins with 'Python x.y.'.
+  if [[ "${current_py_version#"${desired_python_version}"}" == "${current_py_version}" ]] ; then
+    echo "Error: Pyenv has Python ${INSTALL_PYTHON_VERSION} installed, but 'python --version' is showing: '${current_py_version}'."
+    echo "To fix, run:  pyenv global ${INSTALL_PYTHON_VERSION}"
     exit 1
   fi
 }
