@@ -6,23 +6,55 @@ source "${INSTALL_PACKAGES_HERE}/check_bash_version.sh"
 
 function fedora_linux_install() {
   echo "Ensuring critical RPMs are installed."
-  # gh is the github CLI tool
-  # ncurses gives us tput, which is used for coloring the prompt
+  # gh: the Github CLI tool
+  # ncurses: provides 'tput', which is used for coloring the prompt
+  # p11-kit-trust: provides 'trust', used for inspecting the contents of the CA certificate bundle
+
+  if ! rpm -q dnf-plugins-core >/dev/null 2>&1 || ! sudo dnf repolist | grep -q ^hashicorp ; then
+    sudo dnf install --assumeyes dnf-plugins-core
+    sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+  fi
 
   declare -a packages=(
-    ack
-    findutils
-    jq
-    gh
+    ack                       # Dev tool: Search text files for strings quickly (similar to grep)
+    awscli2                   # AWS CLI tooling, v2.
+    coreutils
+    curl
+    findutils                 # Includes `find`, which is commonly-used
+    gcc                       # Needed to compile specific Python versions
+    gdbm-devel                # Needed to compile specific Python versions
+    gh                        # Github CLI client, needed for some infra-toolbox scripts
     git
+    git-delta                 # Alternate diff pager for git
+    jq
+    libffi-devel              # Needed to compile specific Python versions
     ncurses
+    ncurses-devel             # Needed to compile specific Python versions
+    npm                       # Used for Atlas development
+    openldap-clients          # Install ldapsearch and other useful LDAP-related tools
     openssl
-    ShellCheck
-    the_silver_searcher
-    tmux
-    vagrant
+    openssl-devel             # Needed to compile specific Python versions
+    p11-kit-trust             # Needed to compile specific Python versions
+    podman
+    postgresql-server         # Used for Atlas development
+    readline-devel            # Needed to compile specific Python versions
+    redis                     # Used for Atlas development
+    sed
+    ShellCheck                # Shell script linter
+    sqlite-devel              # Needed to compile specific Python versions
+    the_silver_searcher       # Dev tool: Search text files for strings quickly (similar to grep)
+    tmux                      # Shell window management
+    uwsgi                     # Web server: Used for Atlas development
+    uwsgi-plugin-python3
+    uwsgi-router-http
+    vagrant                   # Used to stand up local VMs for development
+    vault                     # Hashicorp Vault client
+    vim-ale                   # VIM editor syntax highlighting system
     vim-enhanced
-    vim-ale
+    xmlsec1-openssl           # Needed to compile specific Python versions
+    xz-devel                  # Needed to compile specific Python versions
+    yarnpkg                   # Used for Atlas development
+    zlib-devel                # Needed to compile specific Python versions
   )
   declare -a packages_to_install=()
   for package in "${packages[@]}" ; do
@@ -33,6 +65,30 @@ function fedora_linux_install() {
   if [[ "${#packages_to_install[@]}" -gt 0 ]] ; then
     set -o xtrace
     sudo dnf install --assumeyes "${packages_to_install[@]}"
+    set +o xtrace
+  fi
+
+
+  # Initialize Postgres
+  if ! sudo systemctl is-enabled --quiet postgresql.service ; then
+    set -o xtrace
+    # Configure Postgres to accept md5 authentication
+    if sudo test ! -f "/var/lib/pgsql/data/pg_hba.conf"; then
+      sudo /usr/bin/postgresql-setup --initdb
+
+      # Update the "host    all             all             127.0.0.1/32            ident" line to use md5 instead:
+      #            "host    all             all             127.0.0.1/32            md5"
+      sudo sed -i -E 's#^(host\s+all\s+all\s+127.0.0.1/32\s+)ident$#\1md5#g' /var/lib/pgsql/data/pg_hba.conf
+    fi
+
+    sudo systemctl enable --now postgresql.service
+    set +o xtrace
+  fi
+
+  # Enable the Redis service
+  if ! sudo systemctl is-enabled --quiet redis.service ; then
+    set -o xtrace
+    sudo systemctl enable --now redis.service
     set +o xtrace
   fi
 }
@@ -47,8 +103,17 @@ function macos_install() {
   # - vim
   # Some packages are not available via Brew so are installed by the function that configures them:
   # - vim-ale
+  declare -a brew_packages=(
+    ack                       # Dev tool: Search text files for strings quickly (similar to grep)
+    awscli                    # AWS CLI tooling, v2.
+    gh                        # Github CLI client, needed for some infra-toolbox scripts
+    jq
+    shellcheck                # Shell script linter
+    tmux                      # Shell window management
+    vagrant                   # Used to stand up local VMs for development
+  )
   local packages_to_install=()
-  for package in ack jq gh shellcheck tmux vagrant ; do
+  for package in "${brew_packages[@]}" ; do
     if ! command -v "${package}" >/dev/null ; then
       packages_to_install+=("${package}")
     fi
@@ -67,9 +132,14 @@ function macos_install() {
     packages_to_install+=("the_silver_searcher")
   fi
 
+  if ! command -v vault >/dev/null ; then
+    brew tap hashicorp/tap
+    brew install hashicorp/tap/vault
+  fi
+
   if [[ "${#packages_to_install[@]}" -gt 0 ]]; then
     set -o xtrace
-    brew install "${packages_to_install[@]}"
+    brew install --overwrite "${packages_to_install[@]}"
     set +o xtrace
   fi
 }

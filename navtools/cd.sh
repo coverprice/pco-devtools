@@ -12,7 +12,7 @@ function cdpylibs() {
   fi
 
   local - dir
-  dir="$(python -c "import sys; print(list(filter(lambda x:x.endswith('/site-packages'),sys.path))[0])")"
+  dir="$(python -c "import site; print(site.getsitepackages()[0])")"
   if [[ ! -d $dir ]]; then
     echo "ERROR: ${dir} does not exist"
     return
@@ -28,22 +28,33 @@ function cdpylibs() {
 #   cdd PROJECT
 # Example:
 #   cdd dpp-utils
+# shellcheck disable=SC2164
 function cdd() {
-  local project="${1:-}"
+  local project="${1:-}" subdir
   _analyze_current_repo
   [[ -z "${_REPO_TOP:-}" ]] && return
   if $_REPO_IS_MONOREPO ; then
     if [[ -z $project ]]; then
-      cd "${_REPO_TOP}" || return
+      cd "${_REPO_TOP}"
     elif [[ -d "${_REPO_TOP}/apps/${project}" ]]; then
-      cd "${_REPO_TOP}/apps/${project}" || return
+      cd "${_REPO_TOP}/apps/${project}"
     elif [[ -d "${_REPO_TOP}/libs/${project}" ]]; then
-      cd "${_REPO_TOP}/libs/${project}" || return
+      cd "${_REPO_TOP}/libs/${project}"
     else
-      echo "ERROR: no such project ${project}" || return
+      echo "ERROR: no such project ${project}"
+      return
+    fi
+
+    if [[ -n $project ]]; then
+      # Rewrite some-tool-kit to some_toolkit (or dpp-some-toolkit to dpp/some_toolkit)
+      subdir="${project//dpp-/dpp\/}"   # Replace dpp-... with dpp/...
+      subdir="${subdir//-/_}"
+      if [[ -d $subdir ]]; then
+        cd "${subdir}"
+      fi
     fi
   else
-    cd "${_REPO_TOP}" || return
+    cd "${_REPO_TOP}"
   fi
 }
 

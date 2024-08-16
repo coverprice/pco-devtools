@@ -5,43 +5,50 @@ This repo contains:
   repos, and for managing the state of Python venvs used within those repos.
 * Installation scripts to quickly get a new user set up with the tooling.
 
-For full instructions on setting up a Linux environment, please consult
-[PCO dev environment setup](https://docs.google.com/document/d/1Yp3Ixeh4FzvON2Sru6r1D9gBSvPGtn6WOhlYMpRMyhA/view).
 
 
 ## Installation
 
 ### Fedora Linux
 
-With a fresh user that belongs to the `wheel` group (can `sudo` without a password), run the following:
+For full instructions on setting up a Linux environment, consult
+[PCO dev environment setup](https://docs.google.com/document/d/1Yp3Ixeh4FzvON2Sru6r1D9gBSvPGtn6WOhlYMpRMyhA/view).
 
-```
+With a fresh user that belongs to the `wheel` group (can `sudo` without a password), run the following to install
+everything.
+
+```bash
 curl --silent --show-error --location https://raw.githubusercontent.com/openshift-eng/pco-devtools/main/bootstrap.sh | bash
 ```
 
 ### MacOS
 
-1. **Only for Macs not managed by IT**. (If you have the Managed Software Center installed on your Mac, you can skip
-   this steps). Follow [this KB article](https://redhat.service-now.com/help?id=kb_article_view&sysparm_article=KB0004030)
-   to ensure you have the right certificates installed.
+1. **This step is only for Macs not managed by IT**. Follow [this KB article](https://url.corp.redhat.com/c7a40cf)
+   to ensure you have the right certificates installed. (If you have the Managed Software Center installed, that
+   means IT has installed the certificates for you.)
 
 2. Install Homebrew (instructions from the [Homebrew website](https://brew.sh/)):
 
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
 
-3. Install a modern Bash and set it as your default shell (enter your password when prompted):
+3. Install a modern Bash and set it as your default shell (enter your password when prompted). Using Bash as your
+   default shell is important, as various helper scripts we use assume that the system shell is modern Bash.
 
-    brew install bash
-    # This 1-liner appends the path to the new bash to `/private/etc/shells`.
-    new_bash="$(brew --prefix)/bin/bash" ; ! grep -E "${new_bash}" /private/etc/shells >/dev/null && (echo "${new_bash}" | sudo tee -a /private/etc/shells)
-    # Set your default shell to the new bash:
-    chsh -s "$(brew --prefix)/bin/bash"
-    # Use the new Bash by either re-starting your terminal or running:
-    exec "$(brew --prefix)/bin/bash"
+```bash
+brew install bash
+# This 1-liner appends the path to the new bash to `/private/etc/shells`.
+new_bash="$(brew --prefix)/bin/bash" ; ! grep -E "${new_bash}" /private/etc/shells >/dev/null && (echo "${new_bash}" | sudo tee -a /private/etc/shells)
+# Set your default shell to the new bash:
+chsh -s "$(brew --prefix)/bin/bash"
+# Use the new Bash by either re-starting your terminal or running:
+exec "$(brew --prefix)/bin/bash"
+```
 
 4. Begin the install process:
 
-```
+```bash
 curl --silent --show-error --location https://raw.githubusercontent.com/openshift-eng/pco-devtools/main/bootstrap.sh | bash
 ```
 

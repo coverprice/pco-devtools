@@ -2,20 +2,15 @@
 set -o errexit -o nounset -o pipefail
 INSTALL_NAVTOOLS_HERE="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 source "${INSTALL_NAVTOOLS_HERE}/check_bash_version.sh"
+source "${INSTALL_NAVTOOLS_HERE}/navtools/setup_functions.sh"
 
 
 function install_pco_navtools {
-  XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-"${HOME}/.config"}"
-  local navtools_config="${XDG_CONFIG_HOME}/pco_devtools.conf.sh"
-  local navtools_config_defaults="${INSTALL_NAVTOOLS_HERE}/configs/pco_devtools.conf.defaults.sh"
-  local install_target=~/.bashrc.d/load_pco_navtools.sh
+  _ensure_navtools_config_exists
 
-  if [[ ! -f $navtools_config ]]; then
-    echo "pco_devtools.conf.sh does not exist, creating from defaults: ${navtools_config_defaults}"
-    [[ ! -d $XDG_CONFIG_HOME ]] && mkdir -p "${XDG_CONFIG_HOME}"
-    cp "${navtools_config_defaults}" "${navtools_config}"
-  fi
-
+  # NB: the zzzz_ prefix here is to ensure that this runs *after* pyenv.sh. Otherwise,
+  # pyenv will point the Python executable at the global pyenv shim, rather than the active venv's Python.
+  local install_target=~/.bashrc.d/zzzz_load_pco_navtools.sh
   [[ ! -d ~/.bashrc.d ]] && mkdir -p ~/.bashrc.d
 
   if [[ ! -f $install_target ]]; then
