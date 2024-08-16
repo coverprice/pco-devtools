@@ -19,5 +19,3 @@ export GPG_TTY="$(tty)"
 
 # Disable Bash autocomplete on files/dirs with these extensions
 export FIGNORE=".o:__pycache__:.pyc"
-
-# export PROMPT_COMMAND=prompt_update

@@ -5,13 +5,15 @@ source "${INSTALL_NAVTOOLS_HERE}/check_bash_version.sh"
 
 
 function install_pco_navtools {
-  local config_env="${INSTALL_NAVTOOLS_HERE}/configs/pco_devtools.conf.sh"
-  local config_env_defaults="${INSTALL_NAVTOOLS_HERE}/configs/pco_devtools.conf.defaults.sh"
+  XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-"${HOME}/.config"}"
+  local navtools_config="${XDG_CONFIG_HOME}/pco_devtools.conf.sh"
+  local navtools_config_defaults="${INSTALL_NAVTOOLS_HERE}/configs/pco_devtools.conf.defaults.sh"
   local install_target=~/.bashrc.d/load_pco_navtools.sh
 
-  if [[ ! -f $config_env ]]; then
-    echo "pco_devtools.conf.sh does not exist, creating from defaults: ${config_env_defaults}"
-    cp "${config_env_defaults}" "${config_env}"
+  if [[ ! -f $navtools_config ]]; then
+    echo "pco_devtools.conf.sh does not exist, creating from defaults: ${navtools_config_defaults}"
+    [[ ! -d $XDG_CONFIG_HOME ]] && mkdir -p "${XDG_CONFIG_HOME}"
+    cp "${navtools_config_defaults}" "${navtools_config}"
   fi
 
   [[ ! -d ~/.bashrc.d ]] && mkdir -p ~/.bashrc.d

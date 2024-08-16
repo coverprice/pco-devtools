@@ -5,9 +5,11 @@ function _load_navtools() {
   local - navtools_config
   set -o nounset -o pipefail
 
-  navtools_config="${PCO_NAVTOOLS_HERE}/../configs/pco_devtools.conf.sh"
+  XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-"${HOME}/.config"}"
+  navtools_config="${XDG_CONFIG_HOME}/pco_devtools.conf.sh"
   if [[ ! -f $navtools_config ]]; then
     echo "Navtools config file not found in ${navtools_config}, copying from defaults."
+    [[ ! -d $XDG_CONFIG_HOME ]] && mkdir -p "${XDG_CONFIG_HOME}"
     cp "${PCO_NAVTOOLS_HERE}/../configs/pco_devtools.conf.defaults.sh" "${navtools_config}"
   fi
   source "${navtools_config}"
