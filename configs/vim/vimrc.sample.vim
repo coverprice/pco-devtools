@@ -4,6 +4,7 @@ set tabstop=4
 set shiftwidth=4
 set ignorecase
 set incsearch
+set hlsearch
 syntax on
 set laststatus=2
 let &titleold="bash"
