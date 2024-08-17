@@ -111,6 +111,7 @@ function macos_install() {
     shellcheck                # Shell script linter
     tmux                      # Shell window management
     vagrant                   # Used to stand up local VMs for development
+    vim                       # Newer than system Vim, has python support properly compiled in (required for Black)
   )
   local packages_to_install=()
   for package in "${brew_packages[@]}" ; do
