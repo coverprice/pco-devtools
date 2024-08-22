@@ -6,26 +6,18 @@ INSTALL_EDITOR_TOOLS_HERE="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 source "${INSTALL_EDITOR_TOOLS_HERE}/check_bash_version.sh"
 
 
-function ensure_tmux_installed() {
-  if [[ -f ~/.tmux.conf ]]; then
-    echo "Skipping: adding tmux config. Tmux config already present."
+function ensure_ack_configured() {
+  [[ ! -f ~/.ackrc ]] && cp "${INSTALL_EDITOR_TOOLS_HERE}/configs/ackrc.sample.conf" ~/.ackrc
+}
 
-  else
-    echo "Missing tmux configuration. Installing basic configuration into ~/.tmux.conf"
-    cp "${INSTALL_EDITOR_TOOLS_HERE}/configs/tmux.sample.conf" ~/.tmux.conf
-  fi
+
+function ensure_tmux_installed() {
+  [[ ! -f ~/.tmux.conf ]] && cp "${INSTALL_EDITOR_TOOLS_HERE}/configs/tmux.sample.conf" ~/.tmux.conf
 }
 
 
 function ensure_vimrc_configured() {
-  if [[ -f ~/.vimrc ]]; then
-    echo "Skipping: adding vim config. Vim config already present."
-
-  else
-    echo "Missing vim configuration. Installing basic configuration into ~/.vimrc"
-    cp "${INSTALL_EDITOR_TOOLS_HERE}/configs/vim/vimrc.sample.vim" ~/.vimrc
-    return
-  fi
+  [[ ! -f ~/.vimrc ]] && cp "${INSTALL_EDITOR_TOOLS_HERE}/configs/vim/vimrc.sample.vim" ~/.vimrc
 }
 
 
@@ -83,6 +75,7 @@ function ensure_vim_black_installed() {
 
 function install_editor_configs() {
   source "${INSTALL_EDITOR_TOOLS_HERE}/install_packages.sh"
+  ensure_ack_configured
   ensure_tmux_installed
   ensure_vimrc_configured
   ensure_vim_ale_configured
