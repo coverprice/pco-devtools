@@ -173,6 +173,8 @@ function setup_repo {
     cd "${git_repo_top}/.git/hooks"
     ln -s "../../tools/build/pre-commit" pre-commit
   fi
+  cd "${git_repo_top}"
+  git branch --set-upstream-to origin
 }
 
 
