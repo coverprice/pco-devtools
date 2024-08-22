@@ -11,9 +11,6 @@ This repo contains:
 
 ### Fedora Linux
 
-For full instructions on setting up a Linux environment, consult
-[PCO dev environment setup](https://docs.google.com/document/d/1Yp3Ixeh4FzvON2Sru6r1D9gBSvPGtn6WOhlYMpRMyhA/view).
-
 With a fresh user that belongs to the `wheel` group (can `sudo` without a password), run the following to install
 everything.
 
@@ -23,17 +20,13 @@ curl --silent --show-error --location https://raw.githubusercontent.com/openshif
 
 ### MacOS
 
-1. **This step is only for Macs not managed by IT**. Follow [this KB article](https://url.corp.redhat.com/c7a40cf)
-   to ensure you have the right certificates installed. (If you have the Managed Software Center installed, that
-   means IT has installed the certificates for you.)
-
-2. Install Homebrew (instructions from the [Homebrew website](https://brew.sh/)):
+1. Install Homebrew (instructions from the [Homebrew website](https://brew.sh/)):
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-3. Install a modern Bash and set it as your default shell (enter your password when prompted). Using Bash as your
+2. Install a modern Bash and set it as your default shell (enter your password when prompted). Using Bash as your
    default shell is important, as various helper scripts we use assume that the system shell is modern Bash.
 
 ```bash
@@ -46,7 +39,7 @@ chsh -s "$(brew --prefix)/bin/bash"
 exec "$(brew --prefix)/bin/bash"
 ```
 
-4. Begin the install process:
+3. Begin the install process:
 
 ```bash
 curl --silent --show-error --location https://raw.githubusercontent.com/openshift-eng/pco-devtools/main/bootstrap.sh | bash

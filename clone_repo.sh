@@ -8,10 +8,20 @@ function usage() {
   cat <<EOF
 Clones a PCO-owned repo from openshift-env and configures it.
 
+
 Usage:  ${0} [-u] [-y] REPO_NAME [TARGET_DIR_NAME]
 
    -u:  upstream only            Only clone the openshift-eng/REPO_NAME, do not try to clone your fork of it.
    -y:  yes                      Answer yes to all questions
+
+
+Examples:
+  Clone <your_github_username>/infra-toolbox into ~/dev/repos/my-infra-toolbox/ :
+      ${0} infra-toolbox my-infra-toolbox
+
+  Clone <your_github_username>/infra-toolbox into ~/dev/repos/infra-toolbox/ :
+      ${0} infra-toolbox
+
 
 1. Clones 'github.com/<your_github_username>/REPO_NAME' into '\$PCO_REPO_DIR/TARGET_DIR_NAME'.
 
@@ -163,6 +173,8 @@ function setup_repo {
     cd "${git_repo_top}/.git/hooks"
     ln -s "../../tools/build/pre-commit" pre-commit
   fi
+  cd "${git_repo_top}"
+  git branch --set-upstream-to origin
 }
 
 

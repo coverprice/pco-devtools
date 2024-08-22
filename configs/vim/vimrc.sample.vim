@@ -4,6 +4,9 @@ set tabstop=4
 set shiftwidth=4
 set ignorecase
 set incsearch
+set hlsearch
+" Allow backspacing over everything in insert mode.
+set backspace=indent,eol,start
 syntax on
 set laststatus=2
 let &titleold="bash"
