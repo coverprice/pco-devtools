@@ -13,6 +13,7 @@ function ensure_git_credential_helper_installed() {
   echo "Ensuring Git credential helper is activated."
   cd "${HOME}"
   git config --global credential.helper store
+  git config --global push.default current
 }
 
 
