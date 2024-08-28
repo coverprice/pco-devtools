@@ -106,7 +106,9 @@ function macos_install() {
   declare -a brew_packages=(
     ack                       # Dev tool: Search text files for strings quickly (similar to grep)
     awscli                    # AWS CLI tooling, v2.
+    bash-completion           # Install bash autocomplete helpers
     gh                        # Github CLI client, needed for some infra-toolbox scripts
+    git                       # Replace the stock Git provided by Xcode
     jq
     node
     "postgresql@15"
