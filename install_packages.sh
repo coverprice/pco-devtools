@@ -156,7 +156,7 @@ function macos_install() {
   # The Atlas Toy IDP uses xmlsec1 to sign the SAML requests.
   # https://stackoverflow.com/questions/76805174/getting-key-not-found-with-xmlsec1-on-macos
   local desired_sha="7f35e6ede954326a10949891af2dba47bbe1fc17" tmp_libxmlsec1_path=/tmp/libxmlsec1.rb
-  wget -O "${tmp_libxmlsec1_path}" "https://raw.githubusercontent.com/Homebrew/homebrew-core/${desired_sha}/Formula/libxmlsec1.rb"
+  curl -o "${tmp_libxmlsec1_path}" "https://raw.githubusercontent.com/Homebrew/homebrew-core/${desired_sha}/Formula/libxmlsec1.rb"
   HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1 brew install --formula "${tmp_libxmlsec1_path}"
 }
 
