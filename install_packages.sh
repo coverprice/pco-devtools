@@ -149,7 +149,8 @@ function macos_install() {
     set +o xtrace
   fi
 
-  brew services start redis "postgresql@15"
+  brew services start redis
+  brew services start "postgresql@15"
 
   # This is a workaround for a problem with the 1.3.7 version of xmlsec1. It forces a downgrade to 1.2.7.
   # The Atlas Toy IDP uses xmlsec1 to sign the SAML requests.
