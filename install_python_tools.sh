@@ -106,6 +106,8 @@ function ensure_poetry_installed {
   echo "Installing Poetry."
   # Instructions verbatim from https://python-poetry.org/docs/
   curl --silent --show-error --location https://install.python-poetry.org | python3 -
+  # Use single quote intentionally to disable expansion.
+  echo 'export PATH="~/.local/bin:$PATH' >> ~/.bashrc
 
   # The venv manager takes care of creating venvs, not poetry. This is because Poetry will (by default) put its venvs
   # inside the pyproject.toml project directory, which can cause some issues.
