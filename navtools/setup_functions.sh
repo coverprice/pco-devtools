@@ -12,7 +12,7 @@ function _ensure_navtools_config_exists() {
 
   if [[ ! -f $NAVTOOLS_CONFIG_FILE ]]; then
     echo "${NAVTOOLS_CONFIG_FILE} does not exist, creating from defaults."
-    config_dir="$(dirname "$(readlink -f "${NAVTOOLS_CONFIG_FILE}")")"
+    config_dir="$(dirname "${NAVTOOLS_CONFIG_FILE}")"
     [[ ! -d $config_dir ]] && mkdir -p "${config_dir}"
     cp "${SETUP_NAVTOOLS_HERE}/../configs/pco_devtools.conf.defaults.sh" "${NAVTOOLS_CONFIG_FILE}"
   fi
