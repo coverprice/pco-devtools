@@ -3,7 +3,7 @@ set -o errexit -o pipefail
 INSTALL_PYTHON_TOOLS_HERE="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 source "${INSTALL_PYTHON_TOOLS_HERE}/check_bash_version.sh"
 
-INSTALL_PYTHON_VERSION=3.9
+INSTALL_PYTHON_VERSION=3.12
 
 
 function ensure_pyenv_installed {
