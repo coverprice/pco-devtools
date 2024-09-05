@@ -91,7 +91,7 @@ function parse_args {
     exit 1
   fi
   if [[ -z "${PCO_REPO_DIR:-}" ]] ; then
-    echo "Error: PCO_REPO_HOME not configured. Please consult the README.md: ${HERE}/README.md"
+    echo "Error: PCO_REPO_DIR not configured. Please consult the README.md: ${HERE}/README.md"
     usage
     exit 1
   fi
