@@ -107,7 +107,8 @@ function parse_args {
 # Input: none
 # Output: GITHUB_USERNAME - string - the user's Github login name, extracted from `gh auth status`
 function get_github_username {
-  local gh_auth_output regex="Logged in to github.com account ([-.a-zA-Z0-9]+) "
+  # Note: (?: ...) means a non-capturing group. The word "account" may/may not be present depending on the `gh` version.
+  local gh_auth_output regex="Logged in to github.com (?:account )?([-.a-zA-Z0-9]+)"
   gh_auth_output="$(gh auth status --hostname github.com)"
   if [[ ! $gh_auth_output =~ $regex ]] ; then
      echo "Error: You do not appear to be logged into github.com with the 'gh' tool."
