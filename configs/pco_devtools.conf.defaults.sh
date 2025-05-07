@@ -10,7 +10,7 @@ if [[ "$(uname)" == "Linux" ]]; then
 elif [[ "$(uname)" == "Darwin" ]]; then
   # MacOS-specific customizations
   # Allows the installed GNU findutils (gfind, gxargs, glocate) to be used with their regular names (find, xargs, ...)
-  [[ ! "${PATH:-}" =~ libexec/gnubin ]] && export PATH="/usr/local/opt/findutils/libexec/gnubin:${PATH}"
+  [[ ! "${PATH:-}" =~ libexec/gnubin ]] && export PATH="$(brew --prefix findutils)/libexec/gnubin:${PATH}"
 fi
 
 # This lets gpg-agent work correctly within tmux
